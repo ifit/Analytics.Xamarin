@@ -1,7 +1,5 @@
 ﻿using System;
 
-using Segment.Model;
-
 namespace Segment.Model
 {
 	public class Options

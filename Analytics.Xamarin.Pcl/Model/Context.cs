@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace Segment.Model
 {
 	public class Context : Dict

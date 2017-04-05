@@ -49,17 +49,6 @@
     <Compile Include="Config.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Defaults.cs" />
-    <Compile Include="Logger.cs" />
-    <Compile Include="Delegates\FailedActionHandler.cs" />
-    <Compile Include="Delegates\SucceededActionHandler.cs" />
-    <Compile Include="Exception\BadParameter.cs" />
-    <Compile Include="Exception\NotInitializedException.cs" />
-    <Compile Include="Flush\AsyncFlushHandler.cs" />
-    <Compile Include="Flush\BlockingFlushHandler.cs" />
-    <Compile Include="Flush\BlockingQueue.cs" />
-    <Compile Include="Flush\IBatchFactory.cs" />
-    <Compile Include="Flush\IFlushHandler.cs" />
-    <Compile Include="Flush\SimpleBatchFactory.cs" />
     <Compile Include="Model\Alias.cs" />
     <Compile Include="Model\BaseAction.cs" />
     <Compile Include="Model\Batch.cs" />
@@ -74,9 +63,11 @@
     <Compile Include="Model\Screen.cs" />
     <Compile Include="Model\Track.cs" />
     <Compile Include="Model\Traits.cs" />
-    <Compile Include="Request\BlockingRequestHandler.cs" />
+    <Compile Include="Request\RequestHandler.cs" />
     <Compile Include="Request\IRequestHandler.cs" />
     <Compile Include="Stats\Statistics.cs" />
+    <Compile Include="Request\FlushHandler.cs" />
+    <Compile Include="Request\IFlushHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Net.Http">
@@ -90,6 +81,12 @@
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>\tmp\nuget\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks">
+      <HintPath>..\..\..\..\..\..\..\..\tmp\nuget\Microsoft.Bcl.Async.1.0.168\lib\portable-net45+win8+wp8+wpa81\Microsoft.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions">
+      <HintPath>..\..\..\..\..\..\..\..\tmp\nuget\Microsoft.Bcl.Async.1.0.168\lib\portable-net45+win8+wp8+wpa81\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

@@ -1,21 +1,12 @@
-﻿using Segment.Delegates;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Segment.Model;
 using Segment.Stats;
-using System;
-using System.Collections.Generic;
 
 namespace Segment
 {
-	public interface IClient : IDisposable
+	public interface IClient
 	{
-		#region Events
-
-		event FailedActionHandler Failed;
-
-		event SucceededActionHandler Succeeded;
-
-		#endregion //Events
-
 		#region Properties
 
 		Statistics Statistics { get; }
@@ -52,7 +43,7 @@ namespace Segment
 		/// <param name="options">Options allowing you to set timestamp, anonymousId, target integrations,
 		/// and the context of th emessage.</param>
 		///
-		void Identify(string userId, IDictionary<string, object> traits = null, Options options = null);
+		Task Identify(string userId, IDictionary<string, object> traits = null, Options options = null);
 
 		/// <summary>
 		/// The `group` method lets you associate a user with a group. Be it a company, 
@@ -74,7 +65,7 @@ namespace Segment
 		/// <param name="options">Options allowing you to set timestamp, anonymousId, target integrations,
 		/// and the context of th emessage.</param>
 		///
-		void Group(string userId, string groupId, IDictionary<string, object> traits = null, Options options = null);
+		Task Group(string userId, string groupId, IDictionary<string, object> traits = null, Options options = null);
 
 		/// <summary>
 		/// Whenever a user triggers an event on your site, you’ll want to track it
@@ -98,7 +89,7 @@ namespace Segment
 		/// and the context of th emessage.</param>
 		/// 
 		///
-		void Track(string userId, string eventName, IDictionary<string, object> properties = null, Options options = null);
+		Task Track(string userId, string eventName, IDictionary<string, object> properties = null, Options options = null);
 
 		/// <summary>
 		/// Aliases an anonymous user into an identified user.
@@ -111,7 +102,7 @@ namespace Segment
 		/// <param name="options">Options allowing you to set timestamp, anonymousId, target integrations,
 		/// and the context of th emessage.</param>
 		/// 
-		void Alias(string previousId, string userId, Options options = null);
+		Task Alias(string previousId, string userId, Options options = null);
 
 		/// <summary>
 		/// The `page` method let your record whenever a user sees a webpage on 
@@ -133,7 +124,7 @@ namespace Segment
 		/// <param name="options">Options allowing you to set timestamp, anonymousId, target integrations,
 		/// and the context of th emessage.</param>
 		///
-		void Page(string userId, string name, string category = "", IDictionary<string, object> properties = null, Options options = null);
+		Task Page(string userId, string name, string category = "", IDictionary<string, object> properties = null, Options options = null);
 
 		/// <summary>
 		/// The `screen` method let your record whenever a user sees a mobile screen on 
@@ -156,12 +147,7 @@ namespace Segment
 		/// <param name="options">Options allowing you to set timestamp, anonymousId, target integrations,
 		/// and the context of th emessage.</param>
 		///
-		void Screen(string userId, string name, string category = "", IDictionary<string, object> properties = null, Options options = null);
-
-		/// <summary>
-		/// Blocks until all messages are flushed
-		/// </summary>
-		void Flush();
+		Task Screen(string userId, string name, string category = "", IDictionary<string, object> properties = null, Options options = null);
 
 		#endregion //Methods
 	}
