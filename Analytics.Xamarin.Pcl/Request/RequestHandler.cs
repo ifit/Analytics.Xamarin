@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -43,41 +44,41 @@ namespace Segment.Request
 			this._client.DefaultRequestHeaders.ExpectContinue = false;
 		}
 
-		public async Task Process (BaseAction action)
+		public async Task Process (BaseAction action, LogDelegate logger)
 		{
-			await SendBatch (new Batch (WriteKey, new List<BaseAction> () { action }));
-		}
-
-		private async Task SendBatch(Batch batch)
-		{
-			try
-			{
-				// set the current request time
-				batch.SentAt = DateTime.Now.ToString("o");
-				string json = JsonConvert.SerializeObject(batch);
-
-				Uri uri = new Uri(_host + "/v1/import");
-
-				HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, uri);
-
-				// basic auth: https://segment.io/docs/tracking-api/reference/#authentication
-				request.Headers.Add("Authorization", BasicAuthHeader(batch.WriteKey, ""));
-				request.Content = new StringContent(json, Encoding.UTF8, "application/json");
-
-				var start = DateTime.Now;
-
-				var response = await _client.SendAsync(request);
-
-				if (!response.IsSuccessStatusCode)
-				{
-					string reason = string.Format("Status Code {0} ", response.StatusCode);
-					reason += response.Content.ToString();
-					throw new WebException(string.Format("Segment API request returned an unexpected status code: {0}", reason));
+			try {
+				await Send (action);
+			} catch (Exception ex) {
+				if (null != logger) {
+					logger(string.Format ("Segment triggered a circuitbreaker exception: {0}", ex));
 				}
 			}
-			catch (System.Exception e)
-			{
-				throw new WebException (string.Format ("Segment API request failed: {0}", e.Message));
+		}
+
+		private async Task Send (BaseAction action)
+		{
+			var batch = new Batch (WriteKey, new List<BaseAction> () { action });
+
+			// set the current request time
+			batch.SentAt = DateTime.Now.ToString ("o");
+			string json = JsonConvert.SerializeObject (batch);
+
+			Uri uri = new Uri (_host + "/v1/import");
+
+			HttpRequestMessage request = new HttpRequestMessage (HttpMethod.Post, uri);
+
+			// basic auth: https://segment.io/docs/tracking-api/reference/#authentication
+			request.Headers.Add ("Authorization", BasicAuthHeader (batch.WriteKey, ""));
+			request.Content = new StringContent (json, Encoding.UTF8, "application/json");
+
+			var start = DateTime.Now;
+
+			var response = await _client.SendAsync (request);
+
+			if (!response.IsSuccessStatusCode) {
+				string reason = string.Format ("Status Code {0} ", response.StatusCode);
+				reason += response.Content.ToString ();
+				throw new WebException (string.Format ("Segment API request returned an unexpected status code: {0}", reason));
 			}
 		}
 		
@@ -90,6 +91,11 @@ namespace Segment.Request
 		public void Dispose ()
 		{
 			_client.Dispose ();
+		}
+
+		public Task Process (BaseAction action)
+		{
+			throw new NotImplementedException ();
 		}
 
 		#endregion //Methods

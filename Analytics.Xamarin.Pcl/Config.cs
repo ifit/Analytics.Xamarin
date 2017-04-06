@@ -15,15 +15,12 @@ namespace Segment
 		/// </summary>
 		internal string Host { get; set; }
 
-		internal int MaxQueueSize { get; set; }
-
 		internal TimeSpan Timeout { get; set; }
 
 		public Config()
 		{
 			this.Host = Defaults.Host;
 			this.Timeout = Defaults.Timeout;
-			this.MaxQueueSize = Defaults.MaxQueueCapacity;
 		}
 
 		/// <summary>
@@ -34,17 +31,6 @@ namespace Segment
 		public Config SetTimeout(TimeSpan timeout)
 		{
 			this.Timeout = timeout;
-			return this;
-		}
-
-		/// <summary>
-		/// Sets the maximum amount of items that can be in the queue before no more are accepted.
-		/// </summary>
-		/// <param name="maxQueueSize"></param>
-		/// <returns></returns>
-		public Config SetMaxQueueSize(int maxQueueSize)
-		{
-			this.MaxQueueSize = maxQueueSize;
 			return this;
 		}
 	}

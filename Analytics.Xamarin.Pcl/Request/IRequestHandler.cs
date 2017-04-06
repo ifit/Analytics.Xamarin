@@ -9,7 +9,7 @@ namespace Segment.Request
 		/// <summary>
 		/// Validates an action and begins the process of flushing it to the server
 		/// </summary>
-		/// <param name="action">Action.</param>
-		Task Process (BaseAction action);
+		/// <param name="action">The action to send out</param>
+		Task Process (BaseAction action, LogDelegate logger);
 	}
 }

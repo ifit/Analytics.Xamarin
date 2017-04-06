@@ -40,6 +40,8 @@ namespace Segment
 			}
 		}
 
+		public LogDelegate Logger { get; set; }
+
 		#endregion //Properties
 
 		#region Initialization
@@ -92,7 +94,7 @@ namespace Segment
 			this._writeKey = writeKey;
 			this._config = config ?? new Config();
 
-			IRequestHandler requestHandler = new RequestHandler(_writeKey, Config.Host, Config.Timeout);
+			_requestHandler = new RequestHandler(_writeKey, Config.Host, Config.Timeout);
 		}
 
 		#endregion //Initialization
@@ -628,7 +630,7 @@ namespace Segment
 
 		private async Task Enqueue(BaseAction action)
 		{
-			await _requestHandler.Process(action);
+			await _requestHandler.Process(action, Logger);
 			this.Statistics.Submitted += 1;
 		}
 
