@@ -14,7 +14,7 @@ namespace Segment
 	{
 		#region Fields
 
-		private IFlushHandler _flushHandler;
+		private IRequestHandler _requestHandler;
 		private string _writeKey;
 		private Config _config;
 
@@ -92,8 +92,7 @@ namespace Segment
 			this._writeKey = writeKey;
 			this._config = config ?? new Config();
 
-			IRequestHandler requestHandler = new RequestHandler(Config.Host, Config.Timeout);
-			_flushHandler = new FlushHandler(_writeKey, requestHandler);
+			IRequestHandler requestHandler = new RequestHandler(_writeKey, Config.Host, Config.Timeout);
 		}
 
 		#endregion //Initialization
@@ -629,7 +628,7 @@ namespace Segment
 
 		private async Task Enqueue(BaseAction action)
 		{
-			await _flushHandler.Process(action);
+			await _requestHandler.Process(action);
 			this.Statistics.Submitted += 1;
 		}
 

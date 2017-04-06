@@ -66,8 +66,6 @@
     <Compile Include="Request\RequestHandler.cs" />
     <Compile Include="Request\IRequestHandler.cs" />
     <Compile Include="Stats\Statistics.cs" />
-    <Compile Include="Request\FlushHandler.cs" />
-    <Compile Include="Request\IFlushHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Net.Http">

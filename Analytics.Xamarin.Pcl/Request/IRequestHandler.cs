@@ -7,9 +7,9 @@ namespace Segment.Request
 	internal interface IRequestHandler : IDisposable
 	{
 		/// <summary>
-		/// Send an action batch to the Segment tracking API.
+		/// Validates an action and begins the process of flushing it to the server
 		/// </summary>
-		/// <param name="batch">Batch.</param>
-		Task SendBatch(Batch batch);
+		/// <param name="action">Action.</param>
+		Task Process (BaseAction action);
 	}
 }

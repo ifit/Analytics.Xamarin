@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -8,8 +9,13 @@ using Segment.Model;
 
 namespace Segment.Request
 {
+	/// <summary>
+	/// Performs the actual HTTP request to our server
+	/// </summary>
 	internal class RequestHandler : IRequestHandler
 	{
+		#region Properties
+
 		/// <summary>
 		/// Segment API endpoint.
 		/// </summary>
@@ -20,8 +26,15 @@ namespace Segment.Request
 		/// </summary>
 		private HttpClient _client;
 
-		internal RequestHandler(string host, TimeSpan timeout)
+		private string WriteKey { get; set; }
+
+		#endregion //Properties
+
+		#region Methods
+
+		internal RequestHandler(string writeKey, string host, TimeSpan timeout)
 		{
+			WriteKey = writeKey;
 			this._host = host;
 			this._client = new HttpClient();
 			this._client.Timeout = timeout;
@@ -30,7 +43,12 @@ namespace Segment.Request
 			this._client.DefaultRequestHeaders.ExpectContinue = false;
 		}
 
-		public async Task SendBatch(Batch batch)
+		public async Task Process (BaseAction action)
+		{
+			await SendBatch (new Batch (WriteKey, new List<BaseAction> () { action }));
+		}
+
+		private async Task SendBatch(Batch batch)
 		{
 			try
 			{
@@ -69,10 +87,11 @@ namespace Segment.Request
 			return "Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes(val));
 		}
 
-		public void Dispose()
+		public void Dispose ()
 		{
-			_client.Dispose();
+			_client.Dispose ();
 		}
+
+		#endregion //Methods
 	}
 }
-
