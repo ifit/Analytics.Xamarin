@@ -1,15 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Segment.Model;
-using Segment.Stats;
 
 namespace Segment
 {
 	public interface IClient
 	{
 		#region Properties
-
-		Statistics Statistics { get; }
 
 		string WriteKey { get; }
 

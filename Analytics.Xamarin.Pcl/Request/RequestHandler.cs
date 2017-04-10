@@ -20,7 +20,7 @@ namespace Segment.Request
 		/// <summary>
 		/// Segment API endpoint.
 		/// </summary>
-		private string _host;
+		private Uri _host;
 
 		/// <summary>
 		/// Http client
@@ -36,7 +36,7 @@ namespace Segment.Request
 		internal RequestHandler(string writeKey, string host, TimeSpan timeout)
 		{
 			WriteKey = writeKey;
-			this._host = host;
+			this._host = new Uri(host);
 			this._client = new HttpClient();
 			this._client.Timeout = timeout;
 
@@ -61,11 +61,11 @@ namespace Segment.Request
 
 			// set the current request time
 			batch.SentAt = DateTime.Now.ToString ("o");
-			string json = JsonConvert.SerializeObject (batch);
+			var json = JsonConvert.SerializeObject (batch);
 
-			Uri uri = new Uri (_host + "/v1/import");
+			var uri = new Uri(_host, "/v1/import");
 
-			HttpRequestMessage request = new HttpRequestMessage (HttpMethod.Post, uri);
+			var request = new HttpRequestMessage (HttpMethod.Post, uri);
 
 			// basic auth: https://segment.io/docs/tracking-api/reference/#authentication
 			request.Headers.Add ("Authorization", BasicAuthHeader (batch.WriteKey, ""));
@@ -76,26 +76,19 @@ namespace Segment.Request
 			var response = await _client.SendAsync (request);
 
 			if (!response.IsSuccessStatusCode) {
-				string reason = string.Format ("Status Code {0} ", response.StatusCode);
-				reason += response.Content.ToString ();
-				throw new WebException (string.Format ("Segment API request returned an unexpected status code: {0}", reason));
+				throw new WebException (string.Format ("Segment API request returned an unexpected status code: {0} {1}", response.StatusCode, response.Content.ToString ()));
 			}
 		}
 		
 		private string BasicAuthHeader(string user, string pass)
 		{
-			string val = user + ":" + pass;
-			return "Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes(val));
+			var auth = string.Format("{0}:{1}", user, pass);
+			return "Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes(auth));
 		}
 
 		public void Dispose ()
 		{
 			_client.Dispose ();
-		}
-
-		public Task Process (BaseAction action)
-		{
-			throw new NotImplementedException ();
 		}
 
 		#endregion //Methods
