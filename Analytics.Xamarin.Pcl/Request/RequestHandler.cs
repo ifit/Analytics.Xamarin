@@ -50,7 +50,7 @@ namespace Segment.Request
 				await Send (action);
 			} catch (Exception ex) {
 				if (null != logger) {
-					logger(string.Format ("Segment triggered a circuitbreaker exception: {0}", ex));
+					logger($"Segment triggered a circuitbreaker exception: {ex}");
 				}
 			}
 		}
@@ -76,14 +76,13 @@ namespace Segment.Request
 			var response = await _client.SendAsync (request);
 
 			if (!response.IsSuccessStatusCode) {
-				throw new WebException (string.Format ("Segment API request returned an unexpected status code: {0} {1}", response.StatusCode, response.Content.ToString ()));
+				throw new WebException ($"Segment API request returned an unexpected status code: {response.StatusCode} {response.Content}");
 			}
 		}
 		
 		private string BasicAuthHeader(string user, string pass)
 		{
-			var auth = string.Format("{0}:{1}", user, pass);
-			return "Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes(auth));
+			return "Basic " + Convert.ToBase64String(Encoding.UTF8.GetBytes($"{user}:{pass}"));
 		}
 
 		public void Dispose ()
