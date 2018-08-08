@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Segment
 {
@@ -13,14 +10,20 @@ namespace Segment
 		/// <summary>
 		/// The REST API endpoint
 		/// </summary>
-		internal string Host { get; set; }
+		public string Host { get; private set; }
 
-		internal TimeSpan Timeout { get; set; }
+		public TimeSpan Timeout { get; private set; }
 
-		public Config()
+		public Config() : this(Defaults.Host, Defaults.Timeout) { }
+
+		public Config(TimeSpan timeout) : this(Defaults.Host, timeout) { }
+
+		public Config(string host) : this(host, Defaults.Timeout) { }
+
+		public Config(string host, TimeSpan timeout)
 		{
-			this.Host = Defaults.Host;
-			this.Timeout = Defaults.Timeout;
+			this.Host = host;
+			this.Timeout = timeout;
 		}
 
 		/// <summary>
