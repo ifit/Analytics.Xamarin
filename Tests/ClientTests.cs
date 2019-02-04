@@ -14,11 +14,11 @@ namespace Tests
 			{
 			}
 
-			public bool EnsureId(String userId, Options options)
+			public new bool EnsureId(String userId, Options options)
 			{
 				try
 				{
-					base.ensureId(userId, options);
+					base.EnsureId (userId, options);
 				}
 				catch
 				{

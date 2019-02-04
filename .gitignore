@@ -54,6 +54,15 @@ ipch/
 *.psess
 *.vsp
 *.vspx
+*.orig
+*.bak
+Wolf.Android/sign/debug.keystore
+Wolf.Android/sign/release.keystore
+*.apk
+.vs
+app.config
+.idea
+Thumbs.db
 
 # Guidance Automation Toolkit
 *.gpState

@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Plugin.Connectivity;
 using Segment.Model;
 
 namespace Segment.Request
@@ -47,10 +48,13 @@ namespace Segment.Request
 		public async Task Process (BaseAction action, LogDelegate logger)
 		{
 			try {
-				await Send (action);
+				if (CrossConnectivity.Current.IsConnected)
+				{
+					await Send (action);
+				}
 			} catch (Exception ex) {
 				if (null != logger) {
-					logger($"Segment triggered a circuitbreaker exception: {ex}");
+					logger($"Analytics call failed: {ex.Message}");
 				}
 			}
 		}

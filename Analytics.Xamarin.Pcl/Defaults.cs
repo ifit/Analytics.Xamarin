@@ -6,6 +6,6 @@ namespace Segment
 	{
 		public static string Host = "https://api.segment.io";
 
-		public static TimeSpan Timeout = TimeSpan.FromSeconds(5);
+		public static TimeSpan Timeout = TimeSpan.FromSeconds(7);
 	}
 }
