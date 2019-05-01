@@ -45,18 +45,22 @@ namespace Segment.Request
 			this._client.DefaultRequestHeaders.ExpectContinue = false;
 		}
 
-		public async Task Process (BaseAction action, LogDelegate logger)
+		public async Task<bool> Process (BaseAction action, LogDelegate logger)
 		{
-			try {
-				if (CrossConnectivity.Current.IsConnected)
-				{
-					await Send (action);
-				}
-			} catch (Exception ex) {
+            try {
+                if (CrossConnectivity.Current.IsConnected) {
+                    await Send(action);
+                } else {
+                    return false;
+                }
+            } catch (Exception ex) {
 				if (null != logger) {
 					logger($"Analytics call failed: {ex.Message}");
 				}
+                return false;
 			}
+
+            return true;
 		}
 
 		private async Task Send (BaseAction action)
