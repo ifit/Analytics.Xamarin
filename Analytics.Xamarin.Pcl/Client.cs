@@ -232,9 +232,9 @@ namespace Segment
 		/// that it is in human readable form. For example, "Bought T-Shirt"
 		/// or "Started an exercise"</param>
 		///
-		public async Task<bool> Track(string userId, string eventName)
+		public Task<bool> Track(string userId, string eventName)
 		{
-			return await Track(userId, eventName, null, null);
+			return Track(userId, eventName, null, null);
 		}
 
 		/// <summary>
@@ -252,9 +252,9 @@ namespace Segment
 		/// in more detail. This argument is optional, but highly recommended —
 		/// you’ll find these properties extremely useful later.</param>
 		///
-		public async Task<bool> Track(string userId, string eventName, IDictionary<string, object> properties)
+		public Task<bool> Track(string userId, string eventName, IDictionary<string, object> properties)
 		{
-			return await Track(userId, eventName, properties, null);
+			return Track(userId, eventName, properties, null);
 		}
 
 		/// <summary>
@@ -275,9 +275,9 @@ namespace Segment
 		/// and the context of th emessage.</param>
 		/// 
 		///
-		public async Task<bool> Track(string userId, string eventName, Options options)
+		public Task<bool> Track(string userId, string eventName, Options options)
 		{
-			return await Track(userId, eventName, null, options);
+			return Track(userId, eventName, null, options);
 		}
 
 		/// <summary>
@@ -302,14 +302,14 @@ namespace Segment
 		/// and the context of th emessage.</param>
 		/// 
 		///
-		public async Task<bool> Track(string userId, string eventName, IDictionary<string, object> properties, Options options)
+		public Task<bool> Track(string userId, string eventName, IDictionary<string, object> properties, Options options)
 		{
 			EnsureId(userId, options);
 
 			if (String.IsNullOrEmpty(eventName))
 				throw new InvalidOperationException("Please supply a valid event to Track.");
 
-			return await Enqueue(new Track(userId, eventName, properties, options));
+			return Enqueue(new Track(userId, eventName, properties, options));
 		}
 
 		#endregion //Track
