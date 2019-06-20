@@ -19,7 +19,7 @@
     </NuGetPackageImportStamp>
     <AndroidTlsProvider>
     </AndroidTlsProvider>
-    <ReleaseVersion>2.3.2</ReleaseVersion>
+    <ReleaseVersion>2.3.3</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
