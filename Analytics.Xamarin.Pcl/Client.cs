@@ -623,9 +623,9 @@ namespace Segment
 
 		#region Private Methods
 
-		private async Task<bool> Enqueue(BaseAction action)
+		private Task<bool> Enqueue(BaseAction action)
 		{
-			return await _requestHandler.Process(action, Logger);
+			return _requestHandler.Process(action, Logger);
 		}
 
 		protected void EnsureId(String userId, Options options)
