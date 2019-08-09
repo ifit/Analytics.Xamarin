@@ -40,7 +40,7 @@ namespace Segment
 		/// <param name="options">Options allowing you to set timestamp, anonymousId, target integrations,
 		/// and the context of th emessage.</param>
 		///
-		Task Identify(string userId, IDictionary<string, object> traits = null, Options options = null);
+		Task<bool> Identify(string userId, IDictionary<string, object> traits = null, Options options = null);
 
 		/// <summary>
 		/// The `group` method lets you associate a user with a group. Be it a company, 
@@ -62,7 +62,7 @@ namespace Segment
 		/// <param name="options">Options allowing you to set timestamp, anonymousId, target integrations,
 		/// and the context of th emessage.</param>
 		///
-		Task Group(string userId, string groupId, IDictionary<string, object> traits = null, Options options = null);
+		Task<bool> Group(string userId, string groupId, IDictionary<string, object> traits = null, Options options = null);
 
 		/// <summary>
 		/// Whenever a user triggers an event on your site, you’ll want to track it
@@ -86,7 +86,7 @@ namespace Segment
 		/// and the context of th emessage.</param>
 		/// 
 		///
-		Task Track(string userId, string eventName, IDictionary<string, object> properties = null, Options options = null);
+		Task<bool> Track(string userId, string eventName, IDictionary<string, object> properties = null, Options options = null);
 
 		/// <summary>
 		/// Aliases an anonymous user into an identified user.
@@ -99,7 +99,7 @@ namespace Segment
 		/// <param name="options">Options allowing you to set timestamp, anonymousId, target integrations,
 		/// and the context of th emessage.</param>
 		/// 
-		Task Alias(string previousId, string userId, Options options = null);
+		Task<bool> Alias(string previousId, string userId, Options options = null);
 
 		/// <summary>
 		/// The `page` method let your record whenever a user sees a webpage on 
@@ -121,7 +121,7 @@ namespace Segment
 		/// <param name="options">Options allowing you to set timestamp, anonymousId, target integrations,
 		/// and the context of th emessage.</param>
 		///
-		Task Page(string userId, string name, string category = "", IDictionary<string, object> properties = null, Options options = null);
+		Task<bool> Page(string userId, string name, string category = "", IDictionary<string, object> properties = null, Options options = null);
 
 		/// <summary>
 		/// The `screen` method let your record whenever a user sees a mobile screen on 
@@ -144,7 +144,7 @@ namespace Segment
 		/// <param name="options">Options allowing you to set timestamp, anonymousId, target integrations,
 		/// and the context of th emessage.</param>
 		///
-		Task Screen(string userId, string name, string category = "", IDictionary<string, object> properties = null, Options options = null);
+		Task<bool> Screen(string userId, string name, string category = "", IDictionary<string, object> properties = null, Options options = null);
 
 		#endregion //Methods
 	}
